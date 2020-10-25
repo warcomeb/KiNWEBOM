@@ -18,6 +18,9 @@ Schematic::Schematic (QString file)
     {
         QTextStream in(&sch);
 
+        // Initialize this sheet as "main"
+        Sheet main = Sheet(QString("Main"));
+
         QRegularExpression sheetExp = Sheet::getParsingExpression();
         bool isSheetOpen = false;
         QList<QString> sheetContent;
@@ -41,6 +44,7 @@ Schematic::Schematic (QString file)
             {
                 // Close the sheet parsing and create new object
                 isSheetOpen = false;
+                mSheets.append(Sheet(sheetContent));
 #if defined QT_DEBUG
                 qDebug() << "[INFO] Close sheet.\r\n";
 #endif
@@ -53,6 +57,9 @@ Schematic::Schematic (QString file)
                 sheetContent.append(line);
             }
 
+#if defined QT_DEBUG
+//                qDebug() << "[INFO] Result object:" << mSheets << "\r\n";
+#endif
         }
     }
     else

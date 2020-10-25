@@ -2,7 +2,7 @@
 #define SCHEMATIC_H
 
 #include <QString>
-#include <QVector>
+#include <QList>
 
 #include "sheet.h"
 
@@ -18,7 +18,7 @@ private:
     void parseComeponent ();
     void parseSheet ();
 
-    QVector<Sheet> mSheet;
+    QList<Sheet> mSheets;
 };
 
 #endif // SCHEMATIC_H
