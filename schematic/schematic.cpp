@@ -1,8 +1,11 @@
 #include <QFile>
 #include <QTextStream>
+#include <QDir>
+#include <QFileInfo>
 
 #include "schematic.h"
 #include "component.h"
+#include "utils/wlog.h"
 
 #include <QDebug>
 
@@ -13,9 +16,13 @@ Schematic::Schematic ()
 
 Schematic::Schematic (QString file)
 {
+    WLog log = WLog::instance();
+
     QFile sch(file);
     if (sch.open( QIODevice::ReadOnly | QIODevice::Text ) )
     {
+        QDir d = QFileInfo(file).dir();
+
         QTextStream in(&sch);
 
         // Initialize this sheet as "main"
@@ -35,19 +42,15 @@ Schematic::Schematic (QString file)
             {
                 isSheetOpen = true;
                 sheetContent.clear();
-#if defined QT_DEBUG
-                qDebug() << "[INFO] New sheet founds...\r\n";
-#endif
+                log.log(QString("New sheet founds..."),2);
                 continue;
             }
             else if (match.hasMatch() && (isSheetOpen == true))
             {
                 // Close the sheet parsing and create new object
                 isSheetOpen = false;
-                mSheets.append(Sheet(sheetContent));
-#if defined QT_DEBUG
-                qDebug() << "[INFO] Close sheet.\r\n";
-#endif
+                mSheets.append(Sheet(sheetContent,d.path()));
+                log.log(QString("Close sheet."),2);
                 continue;
             }
 
@@ -57,9 +60,9 @@ Schematic::Schematic (QString file)
                 sheetContent.append(line);
             }
 
-#if defined QT_DEBUG
-//                qDebug() << "[INFO] Result object:" << mSheets << "\r\n";
-#endif
+//#if defined QT_DEBUG
+////                qDebug() << "[INFO] Result object:" << mSheets << "\r\n";
+//#endif
         }
     }
     else

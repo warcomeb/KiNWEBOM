@@ -1,6 +1,3 @@
 #include "wlog.h"
 
-WLog::WLog()
-{
-
-}
+quint8 WLog::verbose = 2;

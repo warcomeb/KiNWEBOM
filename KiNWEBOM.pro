@@ -21,7 +21,8 @@ SOURCES += \
         main.cpp \
         schematic/component.cpp \
         schematic/schematic.cpp \
-        schematic/sheet.cpp
+        schematic/sheet.cpp \
+        utils/wlog.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -35,4 +36,5 @@ HEADERS += \
     metadata.h \
     schematic/component.h \
     schematic/schematic.h \
-    schematic/sheet.h
+    schematic/sheet.h \
+    utils/wlog.h
