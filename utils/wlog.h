@@ -12,16 +12,18 @@ class WLog
 private:
     WLog() {};
 
+    quint8 verbose;
+
 public:
 
     static WLog& instance (void)
     {
-        static WLog* _instance = 0;
-        if (_instance == 0)
-        {
-            _instance = new WLog();
-        }
-        return *_instance;
+        static WLog _instance;
+//        if (_instance == 0)
+//        {
+//            _instance = new WLog();
+//        }
+        return _instance;
     };
 
     void setVerboseLevel (qint8 level)
@@ -35,7 +37,7 @@ public:
         return c.toString("yyyy.MM.dd hh:mm:ss.zzz");
     };
 
-    static void log (QString text, quint8 level)
+    void log (QString text, quint8 level)
     {
         if (level <= verbose)
         {
@@ -63,7 +65,7 @@ public:
 //        cerr << currentTime().toUtf8().data()  << " [ERR_] " << text.toUtf8().data() << "\r\n";
 //    };
 
-    static quint8 verbose;
+
 };
 
 #endif // WLOG_H
