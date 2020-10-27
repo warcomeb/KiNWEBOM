@@ -2,8 +2,12 @@
 
 #include <QCommandLineParser>
 
+#include <QDir>
+#include <QFileInfo>
+
 #include "metadata.h"
 #include "kinwebom.h"
+#include "config.h"
 
 enum CLIParseResult
 {
@@ -21,11 +25,16 @@ CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QSt
             QCoreApplication::translate("main", "Enable verbose output"));
     parser.addOption(verboseOption);
 
-    const QCommandLineOption noDefaultOption(QStringList() << "o" << "only-default",
+    const QCommandLineOption onlyDefaultOption(QStringList() << "o" << "only-default",
             QCoreApplication::translate("main", "Parse only default parameters"));
-    parser.addOption(noDefaultOption);
+    parser.addOption(onlyDefaultOption);
 
-    parser.addPositionalArgument("source", QCoreApplication::translate("main", "The schematich (.sch) main file."));
+    const QCommandLineOption parseTypeOption(QStringList() << "p" << "parse-model",
+            QCoreApplication::translate("main", "Parse <model> type for components (JSON file)"),
+            QCoreApplication::translate("main", "model"));
+    parser.addOption(parseTypeOption);
+
+    parser.addPositionalArgument("source", QCoreApplication::translate("main", "The schematic main (.sch) file."));
 
 
     if (!parser.parse(QCoreApplication::arguments()))
@@ -46,6 +55,15 @@ CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QSt
         return CLI_PARSE_RESULT_HELP;
     }
 
+    if (parser.isSet(onlyDefaultOption))
+    {
+        config->onlyDefault = true;
+    }
+    else
+    {
+        config->onlyDefault = false;
+    }
+
     const QStringList positionalArguments = parser.positionalArguments();
     if (positionalArguments.isEmpty())
     {
@@ -60,6 +78,9 @@ CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QSt
     }
 
     config->schematic = positionalArguments.at(0);
+
+    QDir d = QFileInfo(config->schematic).dir();
+    config->path = d.path();
 
     return CLI_PARSE_RESULT_OK;
 }
@@ -88,12 +109,14 @@ int main (int argc, char *argv[])
         return 1;
     case CLI_PARSE_RESULT_OK:
         // Nothing to do!
+        // Start parsing...
         break;
     default:
         return 1;
-//        parser.showHelp();
     }
 
     nweBom = new KiNWEBOM(config);
-    return a.exec();
+    return 0;
+
+//    return a.exec();
 }

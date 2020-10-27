@@ -5,12 +5,13 @@
 #include <QList>
 
 #include "sheet.h"
+#include "../config.h"
 
 class Schematic
 {
 public:
     Schematic();
-    Schematic(QString file);
+    Schematic(Config config);
 
 private:
 

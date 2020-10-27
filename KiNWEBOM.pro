@@ -32,6 +32,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     component/part.h \
     component/resistor.h \
+    config.h \
     kinwebom.h \
     metadata.h \
     schematic/component.h \

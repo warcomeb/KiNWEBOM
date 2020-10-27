@@ -11,22 +11,20 @@
 
 Schematic::Schematic ()
 {
-
+    // Nothing to do!
 }
 
-Schematic::Schematic (QString file)
+Schematic::Schematic (Config config)
 {
-    WLog log = WLog::instance();
+    WLog& log = WLog::instance();
 
-    QFile sch(file);
+    QFile sch(config.schematic);
     if (sch.open( QIODevice::ReadOnly | QIODevice::Text ) )
     {
-        QDir d = QFileInfo(file).dir();
-
         QTextStream in(&sch);
 
         // Initialize this sheet as "main"
-        Sheet main = Sheet(QString("Main"));
+        Sheet main = Sheet(QString("Main"),QString("."),config);
 
         QRegularExpression sheetExp = Sheet::getParsingExpression();
         bool isSheetOpen = false;
@@ -49,7 +47,7 @@ Schematic::Schematic (QString file)
             {
                 // Close the sheet parsing and create new object
                 isSheetOpen = false;
-                mSheets.append(Sheet(sheetContent,d.path()));
+                mSheets.append(Sheet(sheetContent,config));
                 log.log(QString("Close sheet."),2);
                 continue;
             }
@@ -59,10 +57,6 @@ Schematic::Schematic (QString file)
             {
                 sheetContent.append(line);
             }
-
-//#if defined QT_DEBUG
-////                qDebug() << "[INFO] Result object:" << mSheets << "\r\n";
-//#endif
         }
     }
     else

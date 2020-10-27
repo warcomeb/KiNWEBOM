@@ -4,11 +4,13 @@
 #include <QRegularExpression>
 #include <QString>
 
+#include "../config.h"
+
 class Component
 {
 public:
-    Component (QString name);
-    Component (QList<QString> params);
+    Component (QString name, Config config);
+    Component (QList<QString> params, Config config);
 
     static QRegularExpression getParsingExpression (void)
     {
@@ -17,6 +19,10 @@ public:
 
 private:
     QString mName;
+    QString mReference;
+    QString mSymbolLibrary;
+
+    bool    mIsPowerElement;
 };
 
 #endif // COMPONENT_H

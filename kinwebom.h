@@ -4,16 +4,12 @@
 #include <QObject>
 
 #include "schematic/schematic.h"
-
-struct Config
-{
-    QString schematic;
-};
+#include "config.h"
 
 class KiNWEBOM : public QObject
 {
 public:
-    explicit KiNWEBOM(Config config, QObject *parent = nullptr);
+    explicit KiNWEBOM (Config config, QObject *parent = nullptr);
 
 signals:
 

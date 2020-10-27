@@ -6,18 +6,19 @@
 #include "sheet.h"
 #include "utils/wlog.h"
 
-Sheet::Sheet(QString name, QString file, QString dir):
-    mName(name),
-    mFile(file),
-    mDir(dir)
+Sheet::Sheet(QString name, QString file, Config config):
+    mName(name)
 {
-    parse();
+    mFile = file;
+    mDir  = config.path;
+    parse(config);
 }
 
-Sheet::Sheet (QList<QString> params, QString dir):
-    mDir(dir)
+Sheet::Sheet (QList<QString> params, Config config)
 {
-    WLog log = WLog::instance();
+    mDir  = config.path;
+
+    WLog& log = WLog::instance();
 
     QList<QString>::iterator i;
     for (i = params.begin(); i != params.end(); ++i)
@@ -42,12 +43,12 @@ Sheet::Sheet (QList<QString> params, QString dir):
     log.log(QString("Sheet Name : " + mName),2);
     log.log(QString("Sheet File : " + mFile),2);
 
-    parse();
+    parse(config);
 }
 
-void Sheet::parse (void)
+void Sheet::parse (Config config)
 {
-    WLog log = WLog::instance();
+    WLog& log = WLog::instance();
     if (!(mFile == "."))
     {
         QFile sheet(mDir + "/" + mFile);
@@ -77,7 +78,7 @@ void Sheet::parse (void)
                 {
                     // Close the component parsing and create new object
                     isComponentOpen = false;
-                    mComponents.append(Component(componentContent));
+                    mComponents.append(Component(componentContent,config));
                     log.log(QString("Close component."),3);
                     continue;
                 }

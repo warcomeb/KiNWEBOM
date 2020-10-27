@@ -4,12 +4,13 @@
 #include <QRegularExpression>
 
 #include "component.h"
+#include "../config.h"
 
 class Sheet
 {
 public:
-    Sheet (QString name, QString file = QString("."), QString dir = 0);
-    Sheet (QList<QString> params, QString dir = 0);
+    Sheet (QString name, QString file, Config config);
+    Sheet (QList<QString> params, Config config);
 
 //    QDebug operator<<(QDebug debug, const Sheet &s);
 
@@ -19,7 +20,7 @@ public:
     };
 
 private:
-    void parse (void);
+    void parse (Config config);
 
     QString mName;
     QString mFile;
