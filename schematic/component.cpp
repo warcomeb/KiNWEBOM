@@ -27,6 +27,10 @@ Component::Component (QList<QString> params, Config config)
             {
                 mIsPowerElement = true;
             }
+            else
+            {
+                mIsPowerElement = false;
+            }
         }
         // Every field
         else if (l.at(0) == "F")
