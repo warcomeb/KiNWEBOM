@@ -1,6 +1,7 @@
 #include "bomelement.h"
 
-BOMElement::BOMElement()
+BOMElement::BOMElement(Component c)
 {
-
+    mName = c.getName();
+    mReferences.append(c.getReference());
 }

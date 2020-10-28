@@ -17,6 +17,13 @@ enum CLIParseResult
     CLI_PARSE_RESULT_HELP,
 };
 
+enum CLIOutputFormat
+{
+    CLI_OUTPUT_FORMAT_JSON,
+    CLI_OUTPUT_FORMAT_HTML,
+    CLI_OUTPUT_FORMAT_CSV,
+};
+
 CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QString *errorMessage)
 {
     const QCommandLineOption helpOption = parser.addHelpOption();
@@ -35,6 +42,9 @@ CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QSt
     parser.addOption(parseTypeOption);
 
     parser.addPositionalArgument("source", QCoreApplication::translate("main", "The schematic main (.sch) file."));
+    parser.addPositionalArgument("output", QCoreApplication::translate("main", "BoM output file name."
+                                                                               "The suffix choose the output file type."
+                                                                               "The format supported are CSV, HTML and JSON (default)."));
 
 
     if (!parser.parse(QCoreApplication::arguments()))

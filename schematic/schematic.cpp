@@ -65,3 +65,8 @@ Schematic::Schematic (Config config)
 //        qWarning() << "[WARN] " << "Cannot read file: " + file;
     }
 }
+
+QList<Sheet> Schematic::getSheets (void)
+{
+    return mSheets;
+}

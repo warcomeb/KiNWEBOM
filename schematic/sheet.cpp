@@ -98,6 +98,11 @@ void Sheet::parse (Config config)
     }
 }
 
+QList<Component> Sheet::getComponents (void)
+{
+    return mComponents;
+}
+
 //QDebug Sheet::operator<< (QDebug debug, const Sheet &s)
 //{
 //    debug.nospace() << "mysheet";

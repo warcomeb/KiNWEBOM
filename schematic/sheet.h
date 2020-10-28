@@ -12,6 +12,8 @@ public:
     Sheet (QString name, QString file, Config config);
     Sheet (QList<QString> params, Config config);
 
+    QList<Component> getComponents (void);
+
 //    QDebug operator<<(QDebug debug, const Sheet &s);
 
     static QRegularExpression getParsingExpression (void)

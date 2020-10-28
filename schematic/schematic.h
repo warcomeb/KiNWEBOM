@@ -13,6 +13,8 @@ public:
     Schematic();
     Schematic(Config config);
 
+    QList<Sheet> getSheets (void);
+
 private:
 
     void parseTitleBlock ();
