@@ -11,10 +11,14 @@ KiNWEBOM::KiNWEBOM(Config config, QObject *parent):
     log.setVerboseLevel(3);
 
     mSchematic = Schematic(config);
+
+    createBOM();
 }
 
 BOMList KiNWEBOM::createBOM (void)
 {
+    WLog& log = WLog::instance();
+
     mList.clear();
 
     QList<Sheet> sheets = mSchematic.getSheets();
@@ -29,9 +33,12 @@ BOMList KiNWEBOM::createBOM (void)
             if ((*j).isPowerElement() == false)
             {
                 BOMElement e = BOMElement((*j));
+                log.log(QString("KiNWEBOM: manage element -> ") + e.getName(),3);
+
                 mList.add(e);
             }
         }
-
     }
+
+    return mList;
 }

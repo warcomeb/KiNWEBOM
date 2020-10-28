@@ -21,9 +21,17 @@ public:
     /*!
      * \brief add
      * \param e
+     */
+    void add(BOMElement e);
+
+    /*!
+     * \brief find
+     * \param name
      * \return
      */
-    bool add (BOMElement e);
+    BOMElement* find (QString name);
+
+    BOMElement* find (BOMElement e);
 
 private:
     QList<BOMElement> mElements;
