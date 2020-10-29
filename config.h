@@ -14,6 +14,11 @@ struct Config
 
     // Parse component model
     bool onlyDefault;
+
+    /*!
+     * \brief verboseLevel
+     */
+    quint8 verboseLevel;
 };
 
 

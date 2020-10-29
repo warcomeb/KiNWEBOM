@@ -13,7 +13,7 @@ class KiNWEBOM : public QObject
 public:
     explicit KiNWEBOM (Config config, QObject *parent = nullptr);
 
-    BOMList createBOM(void);
+    BOMList createBOM (void);
 
 signals:
 

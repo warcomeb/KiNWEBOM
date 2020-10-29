@@ -8,7 +8,7 @@ KiNWEBOM::KiNWEBOM(Config config, QObject *parent):
     QObject(parent)
 {
     WLog& log = WLog::instance();
-    log.setVerboseLevel(3);
+    log.setVerboseLevel(config.verboseLevel);
 
     mSchematic = Schematic(config);
 

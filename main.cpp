@@ -29,7 +29,8 @@ CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QSt
     const QCommandLineOption helpOption = parser.addHelpOption();
 
     const QCommandLineOption verboseOption(QStringList() << "v" << "verbose",
-            QCoreApplication::translate("main", "Enable verbose output"));
+            QCoreApplication::translate("main", "Select verbose output <level>"),
+            QCoreApplication::translate("main", "level"));
     parser.addOption(verboseOption);
 
     const QCommandLineOption onlyDefaultOption(QStringList() << "o" << "only-default",
@@ -72,6 +73,23 @@ CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QSt
     else
     {
         config->onlyDefault = false;
+    }
+
+    if (parser.isSet(verboseOption))
+    {
+        const QString verbose = parser.value(verboseOption);
+        bool conversionValue = false;
+        const quint8 verboseValue = verbose.toUInt(&conversionValue);
+        if ((verboseValue < 0) || (conversionValue == false))
+        {
+            *errorMessage = "Error: Option 'verbose' is not valid.";
+            return CLI_PARSE_RESULT_ERROR;
+        }
+        config->verboseLevel = verboseValue;
+    }
+    else
+    {
+        config->verboseLevel = 0;
     }
 
     const QStringList positionalArguments = parser.positionalArguments();
