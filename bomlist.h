@@ -18,6 +18,8 @@ public:
      */
     void clear (void);
 
+    bool isEmpty (void);
+
     /*!
      * \brief add
      * \param e
@@ -32,6 +34,8 @@ public:
     BOMElement* find (QString name);
 
     BOMElement* find (BOMElement e);
+
+    void write (QJsonObject &json) const;
 
 private:
     QList<BOMElement> mElements;

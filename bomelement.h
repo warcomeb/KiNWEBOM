@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QList>
+#include <QJsonObject>
 
 #include "schematic/component.h"
 
@@ -34,6 +35,12 @@ public:
      * \param ref
      */
     void addReference (QList<QString> ref);
+
+    /*!
+     * \brief write
+     * \param json
+     */
+    void write (QJsonObject &json) const;
 
 private:
 

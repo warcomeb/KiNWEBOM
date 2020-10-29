@@ -2,6 +2,8 @@
 
 #include "utils/wlog.h"
 
+#include <QJsonArray>
+
 BOMList::BOMList()
 {
 
@@ -12,6 +14,11 @@ void BOMList::clear (void)
     WLog& log = WLog::instance();
     log.log(QString("BOM List is cleared..."),3);
     mElements.clear();
+}
+
+bool BOMList::isEmpty (void)
+{
+    return mElements.isEmpty();
 }
 
 void BOMList::add (BOMElement e)
@@ -56,4 +63,16 @@ BOMElement* BOMList::find (BOMElement e)
         }
     }
     return ret;
+}
+
+void BOMList::write (QJsonObject &json) const
+{
+    QJsonArray refs;
+    foreach (const BOMElement e, mElements)
+    {
+        QJsonObject o;
+        e.write(o);
+        refs.push_back(o);
+    }
+    json["Elements"] = refs;
 }

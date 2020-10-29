@@ -13,13 +13,22 @@ class KiNWEBOM : public QObject
 public:
     explicit KiNWEBOM (Config config, QObject *parent = nullptr);
 
-    BOMList createBOM (void);
-
 signals:
 
 private:
-    Schematic mSchematic;
 
+    BOMList create (void);
+
+    void save (QString output, BOMFormat format);
+
+    /*!
+     * \brief saveJSON
+     * \param output
+     */
+    void saveJSON (QString output);
+
+
+    Schematic mSchematic;
     BOMList   mList;
 };
 

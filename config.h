@@ -4,6 +4,16 @@
 #include <QString>
 
 /*!
+ * \brief The BOM_Format enum
+ */
+enum BOMFormat
+{
+    BOM_FORMAT_JSON,
+    BOM_FORMAT_HTML,
+    BOM_FORMAT_CSV,
+};
+
+/*!
  * \brief The Config struct
  */
 struct Config
@@ -14,6 +24,9 @@ struct Config
 
     // Parse component model
     bool onlyDefault;
+
+    QString outputFile;
+    BOMFormat format;
 
     /*!
      * \brief verboseLevel

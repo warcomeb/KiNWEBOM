@@ -17,13 +17,6 @@ enum CLIParseResult
     CLI_PARSE_RESULT_HELP,
 };
 
-enum CLIOutputFormat
-{
-    CLI_OUTPUT_FORMAT_JSON,
-    CLI_OUTPUT_FORMAT_HTML,
-    CLI_OUTPUT_FORMAT_CSV,
-};
-
 CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QString *errorMessage)
 {
     const QCommandLineOption helpOption = parser.addHelpOption();
@@ -99,13 +92,34 @@ CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QSt
         return CLI_PARSE_RESULT_ERROR;
     }
 
-    if (positionalArguments.size() > 1)
+    if (positionalArguments.size() != 2)
     {
-        *errorMessage = "Several arguments specified.";
+        *errorMessage = "Wrong arguments number specified.";
         return CLI_PARSE_RESULT_ERROR;
     }
 
-    config->schematic = positionalArguments.at(0);
+    config->schematic  = positionalArguments.at(0);
+
+    // Save aoutput file name and file format
+    config->outputFile = positionalArguments.at(1);
+    QString ext = QFileInfo(config->outputFile).suffix();
+    if (ext == "json")
+    {
+        config->format = BOM_FORMAT_JSON;
+    }
+    else if (ext == "html")
+    {
+        config->format = BOM_FORMAT_HTML;
+    }
+    else if (ext == "csv")
+    {
+        config->format = BOM_FORMAT_CSV;
+    }
+    else
+    {
+        *errorMessage = "Output file format not supported.";
+        return CLI_PARSE_RESULT_ERROR;
+    }
 
     QDir d = QFileInfo(config->schematic).dir();
     config->path = d.path();
@@ -131,6 +145,7 @@ int main (int argc, char *argv[])
         parser.showHelp();
         Q_UNREACHABLE();
     case CLI_PARSE_RESULT_ERROR:
+        fputs(qPrintable("ERROR: "), stderr);
         fputs(qPrintable(errorMessage), stderr);
         fputs("\n\n", stderr);
         fputs(qPrintable(parser.helpText()), stderr);

@@ -1,3 +1,6 @@
+#include <QFile>
+#include <QJsonDocument>
+
 #include "kinwebom.h"
 #include "utils/wlog.h"
 
@@ -12,10 +15,12 @@ KiNWEBOM::KiNWEBOM(Config config, QObject *parent):
 
     mSchematic = Schematic(config);
 
-    createBOM();
+    create();
+
+    save(config.outputFile,config.format);
 }
 
-BOMList KiNWEBOM::createBOM (void)
+BOMList KiNWEBOM::create (void)
 {
     WLog& log = WLog::instance();
 
@@ -41,4 +46,41 @@ BOMList KiNWEBOM::createBOM (void)
     }
 
     return mList;
+}
+
+void KiNWEBOM::save (QString output, BOMFormat format)
+{
+    if (mList.isEmpty())
+    {
+        return;
+    }
+
+    switch (format)
+    {
+    case BOM_FORMAT_JSON:
+        return saveJSON(output);
+        break;
+    case BOM_FORMAT_HTML:
+
+        break;
+    case BOM_FORMAT_CSV:
+
+        break;
+    }
+}
+
+void KiNWEBOM::saveJSON (QString output)
+{
+    QFile o(output);
+    if (!o.open(QIODevice::WriteOnly))
+    {
+        //TODO: message
+        return;
+    }
+
+    QJsonObject obj;
+    mList.write(obj);
+    QJsonDocument doc(obj);
+
+    o.write(doc.toJson());
 }
