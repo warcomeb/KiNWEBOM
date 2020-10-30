@@ -20,7 +20,7 @@ KiNWEBOM::KiNWEBOM(Config config, QObject *parent):
     save(config.outputFile,config.format);
 }
 
-BOMList KiNWEBOM::create (void)
+void KiNWEBOM::create (void)
 {
     WLog& log = WLog::instance();
 
@@ -45,7 +45,7 @@ BOMList KiNWEBOM::create (void)
         }
     }
 
-    return mList;
+    mTitle = BOMTitle(mSchematic.getTitleBlock());
 }
 
 void KiNWEBOM::save (QString output, BOMFormat format)
@@ -79,7 +79,10 @@ void KiNWEBOM::saveJSON (QString output)
     }
 
     QJsonObject obj;
+
+    mTitle.write(obj);
     mList.write(obj);
+
     QJsonDocument doc(obj);
 
     o.write(doc.toJson());

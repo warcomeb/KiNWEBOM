@@ -14,7 +14,17 @@ public:
     Schematic();
     Schematic(Config config);
 
+    /*!
+     * \brief getSheets
+     * \return
+     */
     QList<Sheet> getSheets (void);
+
+    /*!
+     * \brief getTitleBlock
+     * \return
+     */
+    TitleBlock getTitleBlock (void);
 
 private:
 

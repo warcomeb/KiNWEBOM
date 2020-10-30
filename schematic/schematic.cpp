@@ -74,3 +74,8 @@ QList<Sheet> Schematic::getSheets (void)
 {
     return mSheets;
 }
+
+TitleBlock Schematic::getTitleBlock (void)
+{
+    return mTitleBlock;
+}

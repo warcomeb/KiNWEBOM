@@ -14,6 +14,8 @@ public:
 
     void parse (QList<QString> params, Config config);
 
+    QString getBoardTitle (void) const;
+
     static QRegularExpression getParsingExpression (void)
     {
         return QRegularExpression("(\\$Descr|\\$EndDescr)");

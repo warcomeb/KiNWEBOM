@@ -118,3 +118,8 @@ void TitleBlock::parse (QList<QString> params, Config config)
     log.log(QString("TitleBlock - Comment3 : " + mComment3),3);
     log.log(QString("TitleBlock - Comment4 : " + mComment4),3);
 }
+
+QString TitleBlock::getBoardTitle (void) const
+{
+    return mTitle;
+}

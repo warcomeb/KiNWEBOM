@@ -7,6 +7,7 @@
 #include "config.h"
 
 #include "bomlist.h"
+#include "bom/bomtitle.h"
 
 class KiNWEBOM : public QObject
 {
@@ -17,7 +18,7 @@ signals:
 
 private:
 
-    BOMList create (void);
+    void create (void);
 
     void save (QString output, BOMFormat format);
 
@@ -30,6 +31,8 @@ private:
 
     Schematic mSchematic;
     BOMList   mList;
+    BOMTitle  mTitle;
+
 };
 
 #endif // KINWEBOM_H
