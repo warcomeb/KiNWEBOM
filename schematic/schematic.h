@@ -5,6 +5,7 @@
 #include <QList>
 
 #include "sheet.h"
+#include "titleblock.h"
 #include "../config.h"
 
 class Schematic
@@ -22,6 +23,7 @@ private:
     void parseSheet ();
 
     QList<Sheet> mSheets;
+    TitleBlock   mTitleBlock;
 };
 
 #endif // SCHEMATIC_H

@@ -24,6 +24,7 @@ SOURCES += \
         schematic/component.cpp \
         schematic/schematic.cpp \
         schematic/sheet.cpp \
+        schematic/titleblock.cpp \
         utils/wlog.cpp
 
 # Default rules for deployment.
@@ -42,4 +43,5 @@ HEADERS += \
     schematic/component.h \
     schematic/schematic.h \
     schematic/sheet.h \
+    schematic/titleblock.h \
     utils/wlog.h

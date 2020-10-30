@@ -58,6 +58,10 @@ Schematic::Schematic (Config config)
                 sheetContent.append(line);
             }
         }
+        // Close file...
+        sch.close();
+
+        mTitleBlock = TitleBlock(config);
     }
     else
     {
