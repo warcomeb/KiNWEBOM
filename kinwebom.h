@@ -6,7 +6,7 @@
 #include "schematic/schematic.h"
 #include "config.h"
 
-#include "bomlist.h"
+#include "bom/bomlist.h"
 #include "bom/bomtitle.h"
 
 class KiNWEBOM : public QObject

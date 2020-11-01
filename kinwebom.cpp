@@ -4,8 +4,8 @@
 #include "kinwebom.h"
 #include "utils/wlog.h"
 
-#include "bomelement.h"
-#include "bomlist.h"
+#include "bom/bomelement.h"
+#include "bom/bomlist.h"
 
 KiNWEBOM::KiNWEBOM(Config config, QObject *parent):
     QObject(parent)

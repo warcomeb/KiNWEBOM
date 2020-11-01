@@ -16,8 +16,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         bom/bomtitle.cpp \
-        bomelement.cpp \
-        bomlist.cpp \
+        bom/bomelement.cpp \
+        bom/bomlist.cpp \
         component/part.cpp \
         component/resistor.cpp \
         kinwebom.cpp \
@@ -35,8 +35,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     bom/bomtitle.h \
-    bomelement.h \
-    bomlist.h \
+    bom/bomelement.h \
+    bom/bomlist.h \
     component/part.h \
     component/resistor.h \
     config.h \
