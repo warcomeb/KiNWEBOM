@@ -7,6 +7,9 @@
 
 #include "../config.h"
 
+/*!
+ * \brief The Component class
+ */
 class Component
 {
 public:
@@ -15,8 +18,21 @@ public:
 
     bool isPowerElement (void);
 
+    /*!
+     * \brief getName
+     * \return
+     */
     QString getName (void);
+    /*!
+     * \brief getReference
+     * \return
+     */
     QString getReference (void);
+    /*!
+     * \brief getParams
+     * \return
+     */
+    QMap<QString,QString> getParams (void);
 
     static QRegularExpression getParsingExpression (void)
     {
@@ -29,6 +45,7 @@ private:
     QString mSymbolLibrary;
     QString mFootprint;
     QUrl    mDatasheet;
+    QMap<QString,QString> mParams;
 
     bool    mIsPowerElement;
 };
