@@ -85,8 +85,10 @@ Component::Component (QList<QString> params, Config config)
                 case 3:
                     {
                         match = dataIterator.next();
-                        QString url = match.captured();
-                        mDatasheet  = url.remove('\"');
+                        mSpecification = match.captured();
+                        mSpecification.remove('\"');
+//                        QString url = match.captured();
+//                        mDatasheet  = url.remove('\"');
                     }
                     break;
                 default:
@@ -105,7 +107,7 @@ Component::Component (QList<QString> params, Config config)
     log.log(QString("Component - Reference : " + mReference),3);
     log.log(QString("Component - Lib       : " + mSymbolLibrary),3);
     log.log(QString("Component - Footprint : " + mFootprint),3);
-    log.log(QString("Component - Datasheet : " + mDatasheet.toString()),3);
+    log.log(QString("Component - Spec      : " + mSpecification),3);
     QMapIterator<QString, QString> j(mParams);
     while (j.hasNext())
     {
@@ -119,7 +121,7 @@ bool Component::isPowerElement (void)
     return mIsPowerElement;
 }
 
-QString Component::getName (void)
+QString Component::getName (void) const
 {
     return mName;
 }

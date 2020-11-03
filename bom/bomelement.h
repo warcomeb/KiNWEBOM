@@ -44,8 +44,11 @@ public:
 
 private:
 
+    Component      mComponent;
     QList<QString> mReferences;
-    QString        mName;
+//    QString        mName;
+
+    quint32        mQuantity;
 };
 
 #endif // BOMELEMENT_H

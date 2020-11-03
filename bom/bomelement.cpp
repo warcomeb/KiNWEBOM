@@ -2,15 +2,17 @@
 
 #include <QJsonArray>
 
-BOMElement::BOMElement(Component c)
+BOMElement::BOMElement(Component c):
+    mComponent(c)
 {
-    mName = c.getName();
     mReferences.append(c.getReference());
+
+    mQuantity = 1;
 }
 
 QString BOMElement::getName (void)
 {
-    return mName;
+    return mComponent.getName();
 }
 
 QList<QString> BOMElement::getReferences (void)
@@ -21,18 +23,20 @@ QList<QString> BOMElement::getReferences (void)
 void BOMElement::addReference (QString ref)
 {
     mReferences.append(ref);
+    mQuantity++;
 }
 
 void BOMElement::addReference (QList<QString> ref)
 {
     mReferences.append(ref);
+    mQuantity += ref.size();
 }
 
 void BOMElement::write (QJsonObject &json) const
 {
     QJsonObject o;
     // Save name...
-    o["Name"] = mName;
+    o["Name"] = mComponent.getName();
 
     QJsonArray refs;
     foreach (const QString ref, mReferences)
@@ -40,6 +44,7 @@ void BOMElement::write (QJsonObject &json) const
         refs.push_back(ref);
     }
     o["Reference"] = refs;
+    o["Quantity"]  = QString::number(mQuantity);
 
     json.insert("Element", o);
 }

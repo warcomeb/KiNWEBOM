@@ -22,7 +22,7 @@ public:
      * \brief getName
      * \return
      */
-    QString getName (void);
+    QString getName (void) const;
     /*!
      * \brief getReference
      * \return
@@ -44,6 +44,7 @@ private:
     QString mReference;
     QString mSymbolLibrary;
     QString mFootprint;
+    QString mSpecification;
     QUrl    mDatasheet;
     QMap<QString,QString> mParams;
 
