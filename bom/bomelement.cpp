@@ -32,7 +32,7 @@ void BOMElement::addReference (QList<QString> ref)
     mQuantity += ref.size();
 }
 
-void BOMElement::write (QJsonObject &json) const
+void BOMElement::write (QJsonObject &json, QJsonObject config) const
 {
     QJsonObject o;
     // Save name...
@@ -45,6 +45,23 @@ void BOMElement::write (QJsonObject &json) const
     }
     o["Reference"] = refs;
     o["Quantity"]  = QString::number(mQuantity);
+
+    if (!config.empty())
+    {
+        const QMap<QString,QString> params = mComponent.getParams();
+        const QJsonArray configArray = config["Elements"].toArray();
+
+        for (quint8 confIndex = 0; confIndex < configArray.size(); ++confIndex)
+        {
+            QString key = configArray[confIndex].toString();
+
+            QMap<QString,QString>::const_iterator i = params.find(key);
+            if (i != params.end())
+            {
+                o[key] = i.value();
+            }
+        }
+    }
 
     json.insert("Element", o);
 }

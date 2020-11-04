@@ -65,13 +65,14 @@ BOMElement* BOMList::find (BOMElement e)
     return ret;
 }
 
-void BOMList::write (QJsonObject &json) const
+void BOMList::write (QJsonObject &json, QJsonObject config) const
 {
     QJsonArray refs;
+
     foreach (const BOMElement e, mElements)
     {
         QJsonObject o;
-        e.write(o);
+        e.write(o,config);
         refs.push_back(o);
     }
     json["Elements"] = refs;

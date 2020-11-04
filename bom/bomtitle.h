@@ -3,13 +3,20 @@
 
 #include "schematic/titleblock.h"
 
+#include <QJsonObject>
+
 class BOMTitle
 {
 public:
     BOMTitle () {};
     BOMTitle (TitleBlock title);
 
-    void write (QJsonObject &json) const;
+    /*!
+     * \brief write
+     * \param json
+     * \param config
+     */
+    void write (QJsonObject &json, QJsonObject config = QJsonObject()) const;
 
 private:
 

@@ -30,10 +30,10 @@ CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QSt
             QCoreApplication::translate("main", "Parse only default parameters"));
     parser.addOption(onlyDefaultOption);
 
-    const QCommandLineOption parseTypeOption(QStringList() << "p" << "parse-model",
-            QCoreApplication::translate("main", "Parse <model> type for components (JSON file)"),
+    const QCommandLineOption modelOutputOption(QStringList() << "m" << "model",
+            QCoreApplication::translate("main", "Output <model> type for BOMs (JSON file)"),
             QCoreApplication::translate("main", "model"));
-    parser.addOption(parseTypeOption);
+    parser.addOption(modelOutputOption);
 
     parser.addPositionalArgument("source", QCoreApplication::translate("main", "The schematic main (.sch) file."));
     parser.addPositionalArgument("output", QCoreApplication::translate("main", "BoM output file name."
@@ -83,6 +83,15 @@ CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QSt
     else
     {
         config->verboseLevel = 0;
+    }
+
+    if (parser.isSet(modelOutputOption))
+    {
+        config->outputModel = parser.value(modelOutputOption);
+    }
+    else
+    {
+        config->outputModel = QString::Null();
     }
 
     const QStringList positionalArguments = parser.positionalArguments();

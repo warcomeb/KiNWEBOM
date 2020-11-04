@@ -60,10 +60,10 @@ public:
 //        cout << currentTime().toUtf8().data()  << " [DANG] " << text.toUtf8().data() << "\r\n";
 //    };
 
-//    static void error (QString text)
-//    {
-//        cerr << currentTime().toUtf8().data()  << " [ERR_] " << text.toUtf8().data() << "\r\n";
-//    };
+    void error (QString text)
+    {
+        cerr << currentTime().toUtf8().data()  << " [ERR_] " << text.toUtf8().data() << "\r\n";
+    };
 
 
 };

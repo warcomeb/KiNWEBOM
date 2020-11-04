@@ -17,7 +17,7 @@ KiNWEBOM::KiNWEBOM(Config config, QObject *parent):
 
     create();
 
-    save(config.outputFile,config.format);
+    save(config.outputFile,config.outputModel,config.format);
 }
 
 void KiNWEBOM::create (void)
@@ -48,17 +48,38 @@ void KiNWEBOM::create (void)
     mTitle = BOMTitle(mSchematic.getTitleBlock());
 }
 
-void KiNWEBOM::save (QString output, BOMFormat format)
+void KiNWEBOM::save (QString output, QString model, BOMFormat format)
 {
+    WLog& log = WLog::instance();
+
+
     if (mList.isEmpty())
     {
         return;
     }
 
+    QJsonObject modelObj;
+    if (!model.isNull())
+    {
+        QFile modelFile(model);
+        if (!modelFile.open(QIODevice::ReadOnly))
+        {
+            log.error(QString("Model file " + model + " not found!"));
+            return;
+        }
+        QByteArray modelData = modelFile.readAll();
+        QJsonDocument modelJson = QJsonDocument::fromJson(modelData);
+        modelObj = modelJson.object();
+    }
+    else
+    {
+        modelObj = QJsonObject();
+    }
+
     switch (format)
     {
     case BOM_FORMAT_JSON:
-        return saveJSON(output);
+        return saveJSON(output,modelObj);
         break;
     case BOM_FORMAT_HTML:
 
@@ -69,7 +90,7 @@ void KiNWEBOM::save (QString output, BOMFormat format)
     }
 }
 
-void KiNWEBOM::saveJSON (QString output)
+void KiNWEBOM::saveJSON (QString output, QJsonObject model)
 {
     QFile o(output);
     if (!o.open(QIODevice::WriteOnly))
@@ -80,8 +101,8 @@ void KiNWEBOM::saveJSON (QString output)
 
     QJsonObject obj;
 
-    mTitle.write(obj);
-    mList.write(obj);
+    mTitle.write(obj,model);
+    mList.write(obj,model);
 
     QJsonDocument doc(obj);
 

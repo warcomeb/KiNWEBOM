@@ -32,7 +32,7 @@ public:
      * \brief getParams
      * \return
      */
-    QMap<QString,QString> getParams (void);
+    QMap<QString,QString> getParams (void) const;
 
     static QRegularExpression getParsingExpression (void)
     {

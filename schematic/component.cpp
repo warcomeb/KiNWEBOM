@@ -131,7 +131,7 @@ QString Component::getReference (void)
     return mReference;
 }
 
-QMap<QString,QString> Component::getParams (void)
+QMap<QString,QString> Component::getParams (void) const
 {
     return mParams;
 }

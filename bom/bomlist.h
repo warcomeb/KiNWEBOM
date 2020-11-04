@@ -35,7 +35,12 @@ public:
 
     BOMElement* find (BOMElement e);
 
-    void write (QJsonObject &json) const;
+    /*!
+     * \brief write
+     * \param json
+     * \param config
+     */
+    void write (QJsonObject &json, QJsonObject config = QJsonObject()) const;
 
 private:
     QList<BOMElement> mElements;

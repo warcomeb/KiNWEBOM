@@ -39,8 +39,9 @@ public:
     /*!
      * \brief write
      * \param json
+     * \param config
      */
-    void write (QJsonObject &json) const;
+    void write (QJsonObject &json, QJsonObject config = QJsonObject()) const;
 
 private:
 

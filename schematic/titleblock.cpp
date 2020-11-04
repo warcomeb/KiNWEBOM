@@ -123,3 +123,14 @@ QString TitleBlock::getBoardTitle (void) const
 {
     return mTitle;
 }
+
+QList<QString> TitleBlock::getComments (void) const
+{
+    QList<QString> comments;
+    comments << mComment1;
+    comments << mComment2;
+    comments << mComment3;
+    comments << mComment4;
+
+    return comments;
+}

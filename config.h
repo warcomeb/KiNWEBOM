@@ -25,6 +25,11 @@ struct Config
     // Parse component model
     bool onlyDefault;
 
+    /*!
+     * \brief outputModel
+     */
+    QString outputModel;
+
     QString outputFile;
     BOMFormat format;
 
