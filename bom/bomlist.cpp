@@ -3,6 +3,7 @@
 #include "utils/wlog.h"
 
 #include <QJsonArray>
+#include <QXmlStreamWriter>
 
 BOMList::BOMList()
 {
@@ -76,4 +77,35 @@ void BOMList::write (QJsonObject &json, QJsonObject config) const
         refs.push_back(o);
     }
     json["Elements"] = refs;
+}
+
+void BOMList::write (QXmlStreamWriter &html, QJsonObject config) const
+{
+    html.writeStartElement(QStringLiteral("table"));
+
+    // Print TABLE head
+    html.writeStartElement(QStringLiteral("tr"));
+
+    html.writeStartElement(QStringLiteral("th"));
+    html.writeCharacters(QStringLiteral("References"));
+    html.writeEndElement(); //th
+
+    html.writeStartElement(QStringLiteral("th"));
+    html.writeCharacters(QStringLiteral("Name"));
+    html.writeEndElement(); //th
+
+    html.writeStartElement(QStringLiteral("th"));
+    html.writeCharacters(QStringLiteral("Quantity"));
+    html.writeEndElement(); //th
+
+    html.writeEndElement(); //tr
+
+    foreach (const BOMElement e, mElements)
+    {
+//        QJsonObject o;
+        e.write(html,config);
+//        refs.push_back(o);
+    }
+
+    html.writeEndElement(); //table
 }

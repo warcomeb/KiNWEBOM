@@ -20,15 +20,21 @@ private:
 
     void create (void);
 
-    void save (QString output, QString model, BOMFormat format);
+    bool save (QString output, QString model, BOMFormat format);
 
     /*!
      * \brief saveJSON
      * \param output
      * \param model
      */
-    void saveJSON (QString output, QJsonObject model);
+    bool saveJSON (QString output, QJsonObject model);
 
+    /*!
+     * \brief saveHTML
+     * \param output
+     * \param model
+     */
+    bool saveHTML (QString output, QJsonObject model);
 
     Schematic mSchematic;
     BOMList   mList;

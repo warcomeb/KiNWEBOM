@@ -65,3 +65,28 @@ void BOMElement::write (QJsonObject &json, QJsonObject config) const
 
     json.insert("Element", o);
 }
+
+void BOMElement::write (QXmlStreamWriter &html, QJsonObject config) const
+{
+    html.writeStartElement(QStringLiteral("tr"));
+
+    QString refs;
+    foreach (const QString ref, mReferences)
+    {
+        refs += ref + " ";
+    }
+
+    html.writeStartElement(QStringLiteral("td"));
+    html.writeCharacters(refs);
+    html.writeEndElement(); //td
+
+    html.writeStartElement(QStringLiteral("td"));
+    html.writeCharacters(mComponent.getName());
+    html.writeEndElement(); //td
+
+    html.writeStartElement(QStringLiteral("td"));
+    html.writeCharacters(QString::number(mQuantity));
+    html.writeEndElement(); //td
+
+    html.writeEndElement(); //tr
+}

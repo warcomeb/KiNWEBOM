@@ -1,5 +1,6 @@
 #include <QFile>
 #include <QJsonDocument>
+#include <QXmlStreamWriter>
 
 #include "kinwebom.h"
 #include "utils/wlog.h"
@@ -48,14 +49,14 @@ void KiNWEBOM::create (void)
     mTitle = BOMTitle(mSchematic.getTitleBlock());
 }
 
-void KiNWEBOM::save (QString output, QString model, BOMFormat format)
+bool KiNWEBOM::save (QString output, QString model, BOMFormat format)
 {
     WLog& log = WLog::instance();
 
 
     if (mList.isEmpty())
     {
-        return;
+        return false;
     }
 
     QJsonObject modelObj;
@@ -65,7 +66,7 @@ void KiNWEBOM::save (QString output, QString model, BOMFormat format)
         if (!modelFile.open(QIODevice::ReadOnly))
         {
             log.error(QString("Model file " + model + " not found!"));
-            return;
+            return false;
         }
         QByteArray modelData = modelFile.readAll();
         QJsonDocument modelJson = QJsonDocument::fromJson(modelData);
@@ -82,21 +83,23 @@ void KiNWEBOM::save (QString output, QString model, BOMFormat format)
         return saveJSON(output,modelObj);
         break;
     case BOM_FORMAT_HTML:
-
+        return saveHTML(output,modelObj);
         break;
     case BOM_FORMAT_CSV:
-
+        return false;
         break;
     }
+
+    return false;
 }
 
-void KiNWEBOM::saveJSON (QString output, QJsonObject model)
+bool KiNWEBOM::saveJSON (QString output, QJsonObject model)
 {
     QFile o(output);
     if (!o.open(QIODevice::WriteOnly))
     {
         //TODO: message
-        return;
+        return false;
     }
 
     QJsonObject obj;
@@ -107,4 +110,62 @@ void KiNWEBOM::saveJSON (QString output, QJsonObject model)
     QJsonDocument doc(obj);
 
     o.write(doc.toJson());
+    return true;
+}
+
+bool KiNWEBOM::saveHTML (QString output, QJsonObject model)
+{
+    QFile o(output);
+    if (!o.open(QIODevice::WriteOnly))
+    {
+        //TODO: message
+        return false;
+    }
+
+//    QJsonObject obj;
+
+//    mTitle.write(obj,model);
+
+//    QJsonDocument doc(obj);
+
+//    o.write(doc.toJson());
+
+    QTextStream textStream(&o);
+//    textStream << QStringLiteral("<!DOCTYPE html>");
+    QXmlStreamWriter obj(&o);
+    obj.writeStartElement(QStringLiteral("html"));
+    obj.writeAttribute(QStringLiteral("xmlns"),QStringLiteral("http://www.w3.org/1999/xhtml"));
+    obj.writeAttribute(QStringLiteral("lang"),QStringLiteral("en"));
+    obj.writeAttribute(QStringLiteral("xml"),QStringLiteral("lang"),QStringLiteral("en"));
+    obj.writeStartElement(QStringLiteral("head"));
+//    htmlWriter.writeStartElement(QStringLiteral("meta"));
+//    htmlWriter.writeAttribute(QStringLiteral("http-equiv"),QStringLiteral("Content-Type"));
+//    htmlWriter.writeAttribute(QStringLiteral("content"),QStringLiteral("text/html; charset=utf-8"));
+//    htmlWriter.writeEndElement(); //meta
+    obj.writeStartElement(QStringLiteral("title"));
+    obj.writeCharacters(QStringLiteral("BOM"));
+    obj.writeEndElement(); //title
+//    htmlWriter.writeStartElement(QStringLiteral("style"));
+//    htmlWriter.writeCharacters(QStringLiteral("h1, h2, h3, h4 { color: rgb(83,129,53) } h1 { text-align: center; }"));
+//    htmlWriter.writeEndElement(); //style
+    obj.writeEndElement(); //head
+
+    obj.writeStartElement(QStringLiteral("body"));
+
+//    htmlWriter.writeStartElement(QStringLiteral("h1"));
+//    htmlWriter.writeCharacters(QStringLiteral("Test Page"));
+//    htmlWriter.writeEndElement(); //h1
+//    htmlWriter.writeStartElement(QStringLiteral("h2"));
+//    htmlWriter.writeCharacters(QStringLiteral("Lorem"));
+//    htmlWriter.writeEndElement(); //h2
+//    htmlWriter.writeStartElement(QStringLiteral("p"));
+//    htmlWriter.writeCharacters(QStringLiteral("Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
+//    htmlWriter.writeEndElement(); //p
+
+    mList.write(obj,model);
+
+    obj.writeEndElement(); //body
+    obj.writeEndElement(); //html
+
+    return true;
 }

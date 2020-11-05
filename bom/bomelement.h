@@ -4,6 +4,7 @@
 #include <QString>
 #include <QList>
 #include <QJsonObject>
+#include <QXmlStreamWriter>
 
 #include "schematic/component.h"
 
@@ -42,6 +43,8 @@ public:
      * \param config
      */
     void write (QJsonObject &json, QJsonObject config = QJsonObject()) const;
+
+    void write (QXmlStreamWriter &html, QJsonObject config = QJsonObject()) const;
 
 private:
 

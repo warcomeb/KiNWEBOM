@@ -4,6 +4,7 @@
 #include "bomelement.h"
 
 #include <QList>
+#include <QXmlStreamWriter>
 
 /*!
  * \brief The BOMList class
@@ -41,6 +42,8 @@ public:
      * \param config
      */
     void write (QJsonObject &json, QJsonObject config = QJsonObject()) const;
+
+    void write (QXmlStreamWriter &html, QJsonObject config = QJsonObject()) const;
 
 private:
     QList<BOMElement> mElements;
