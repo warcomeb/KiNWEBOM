@@ -14,13 +14,19 @@ class KiNWEBOM : public QObject
 public:
     explicit KiNWEBOM (Config config, QObject *parent = nullptr);
 
-signals:
-
-private:
 
     void create (void);
 
-    bool save (QString output, QString model, BOMFormat format);
+    /*!
+     * \brief save
+     * \param config
+     * \return
+     */
+    bool save (Config config);
+
+signals:
+
+private:
 
     /*!
      * \brief saveJSON
@@ -33,8 +39,9 @@ private:
      * \brief saveHTML
      * \param output
      * \param model
+     * \param style
      */
-    bool saveHTML (QString output, QJsonObject model);
+    bool saveHTML (QString output, QJsonObject model, QString style);
 
     Schematic mSchematic;
     BOMList   mList;

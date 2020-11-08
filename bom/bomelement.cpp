@@ -88,5 +88,24 @@ void BOMElement::write (QXmlStreamWriter &html, QJsonObject config) const
     html.writeCharacters(QString::number(mQuantity));
     html.writeEndElement(); //td
 
+    if (!config.empty())
+    {
+        const QMap<QString,QString> params = mComponent.getParams();
+        const QJsonArray configArray = config["Elements"].toArray();
+
+        for (quint8 confIndex = 0; confIndex < configArray.size(); ++confIndex)
+        {
+            QString key = configArray[confIndex].toString();
+
+            QMap<QString,QString>::const_iterator i = params.find(key);
+            if (i != params.end())
+            {
+                html.writeStartElement(QStringLiteral("td"));
+                html.writeCharacters(i.value());
+                html.writeEndElement(); //td
+            }
+        }
+    }
+
     html.writeEndElement(); //tr
 }

@@ -30,6 +30,11 @@ struct Config
      */
     QString outputModel;
 
+    /*!
+     * \brief styleFile
+     */
+    QString styleFile;
+
     QString outputFile;
     BOMFormat format;
 

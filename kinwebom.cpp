@@ -18,7 +18,7 @@ KiNWEBOM::KiNWEBOM(Config config, QObject *parent):
 
     create();
 
-    save(config.outputFile,config.outputModel,config.format);
+    save(config);
 }
 
 void KiNWEBOM::create (void)
@@ -49,10 +49,9 @@ void KiNWEBOM::create (void)
     mTitle = BOMTitle(mSchematic.getTitleBlock());
 }
 
-bool KiNWEBOM::save (QString output, QString model, BOMFormat format)
+bool KiNWEBOM::save (Config config)
 {
     WLog& log = WLog::instance();
-
 
     if (mList.isEmpty())
     {
@@ -60,30 +59,61 @@ bool KiNWEBOM::save (QString output, QString model, BOMFormat format)
     }
 
     QJsonObject modelObj;
-    if (!model.isNull())
+    if (!config.outputModel.isNull())
     {
-        QFile modelFile(model);
+        QFile modelFile(config.outputModel);
         if (!modelFile.open(QIODevice::ReadOnly))
         {
-            log.error(QString("Model file " + model + " not found!"));
+            log.error(QString("Model file " + config.outputModel + " not found!"));
             return false;
         }
         QByteArray modelData = modelFile.readAll();
         QJsonDocument modelJson = QJsonDocument::fromJson(modelData);
         modelObj = modelJson.object();
+        modelFile.close();
     }
     else
     {
         modelObj = QJsonObject();
     }
 
-    switch (format)
+    // Open stylesheet
+    QString style;
+    if (config.format == BOM_FORMAT_HTML)
+    {
+        if (config.styleFile.isNull())
+        {
+            QFile styleFile( ":/style/resources/style/default.css");
+            if (!styleFile.open(QIODevice::ReadOnly))
+            {
+                log.error(QString("Stylesheet default file not opened!"));
+                return false;
+            }
+            style = styleFile.readAll();
+            styleFile.close();
+        }
+        else
+        {
+            QFile styleFile(config.styleFile);
+            if (!styleFile.open(QIODevice::ReadOnly))
+            {
+                log.error(QString("Stylesheet file " + config.styleFile + " not found!"));
+                return false;
+            }
+
+            // TODO!
+
+            styleFile.close();
+        }
+    }
+
+    switch (config.format)
     {
     case BOM_FORMAT_JSON:
-        return saveJSON(output,modelObj);
+        return saveJSON(config.outputFile,modelObj);
         break;
     case BOM_FORMAT_HTML:
-        return saveHTML(output,modelObj);
+        return saveHTML(config.outputFile,modelObj,style);
         break;
     case BOM_FORMAT_CSV:
         return false;
@@ -113,7 +143,7 @@ bool KiNWEBOM::saveJSON (QString output, QJsonObject model)
     return true;
 }
 
-bool KiNWEBOM::saveHTML (QString output, QJsonObject model)
+bool KiNWEBOM::saveHTML (QString output, QJsonObject model, QString style)
 {
     QFile o(output);
     if (!o.open(QIODevice::WriteOnly))
@@ -124,13 +154,9 @@ bool KiNWEBOM::saveHTML (QString output, QJsonObject model)
 
 //    QJsonObject obj;
 
-//    mTitle.write(obj,model);
-
-//    QJsonDocument doc(obj);
-
-//    o.write(doc.toJson());
 
     QTextStream textStream(&o);
+    // TODO
 //    textStream << QStringLiteral("<!DOCTYPE html>");
     QXmlStreamWriter obj(&o);
     obj.writeStartElement(QStringLiteral("html"));
@@ -145,9 +171,11 @@ bool KiNWEBOM::saveHTML (QString output, QJsonObject model)
     obj.writeStartElement(QStringLiteral("title"));
     obj.writeCharacters(QStringLiteral("BOM"));
     obj.writeEndElement(); //title
-//    htmlWriter.writeStartElement(QStringLiteral("style"));
-//    htmlWriter.writeCharacters(QStringLiteral("h1, h2, h3, h4 { color: rgb(83,129,53) } h1 { text-align: center; }"));
-//    htmlWriter.writeEndElement(); //style
+
+    obj.writeStartElement(QStringLiteral("style"));
+    obj.writeCharacters(style);
+    obj.writeEndElement(); //style
+
     obj.writeEndElement(); //head
 
     obj.writeStartElement(QStringLiteral("body"));
@@ -162,6 +190,7 @@ bool KiNWEBOM::saveHTML (QString output, QJsonObject model)
 //    htmlWriter.writeCharacters(QStringLiteral("Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
 //    htmlWriter.writeEndElement(); //p
 
+//    mTitle.write(obj,model);
     mList.write(obj,model);
 
     obj.writeEndElement(); //body

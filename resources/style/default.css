@@ -1,0 +1,41 @@
+/*
+ * Thanks to: https://dev.to/dcodeyt/creating-beautiful-html-tables-with-css-428l
+ */
+
+.list-table
+{
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.list-table thead tr
+{
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+.list-table th,
+.list-table td
+{
+    padding: 12px 15px;
+}
+
+.list-table tbody tr
+{
+    border-bottom: 1px solid #dddddd;
+}
+
+.list-table tbody tr:nth-of-type(even)
+{
+    background-color: #f3f3f3;
+}
+
+.list-table tbody tr:last-of-type
+{
+    border-bottom: 2px solid #009879;
+}

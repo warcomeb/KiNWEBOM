@@ -82,8 +82,10 @@ void BOMList::write (QJsonObject &json, QJsonObject config) const
 void BOMList::write (QXmlStreamWriter &html, QJsonObject config) const
 {
     html.writeStartElement(QStringLiteral("table"));
+    html.writeAttribute(QStringLiteral("class"),QStringLiteral("list-table"));
 
     // Print TABLE head
+    html.writeStartElement(QStringLiteral("thead"));
     html.writeStartElement(QStringLiteral("tr"));
 
     html.writeStartElement(QStringLiteral("th"));
@@ -98,14 +100,27 @@ void BOMList::write (QXmlStreamWriter &html, QJsonObject config) const
     html.writeCharacters(QStringLiteral("Quantity"));
     html.writeEndElement(); //th
 
-    html.writeEndElement(); //tr
-
-    foreach (const BOMElement e, mElements)
+    if (!config.empty())
     {
-//        QJsonObject o;
-        e.write(html,config);
-//        refs.push_back(o);
+        const QJsonArray configArray = config["Elements"].toArray();
+
+        for (quint8 confIndex = 0; confIndex < configArray.size(); ++confIndex)
+        {
+            html.writeStartElement(QStringLiteral("th"));
+            html.writeCharacters(configArray[confIndex].toString());
+            html.writeEndElement(); //th
+        }
     }
 
+    html.writeEndElement(); //tr
+    html.writeEndElement(); //thead
+
+    html.writeStartElement(QStringLiteral("tbody"));
+    foreach (const BOMElement e, mElements)
+    {
+        e.write(html,config);
+    }
+
+    html.writeEndElement(); //tbody
     html.writeEndElement(); //table
 }

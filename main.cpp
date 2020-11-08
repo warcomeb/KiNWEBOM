@@ -35,6 +35,11 @@ CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QSt
             QCoreApplication::translate("main", "model"));
     parser.addOption(modelOutputOption);
 
+    const QCommandLineOption cssStyleOption(QStringList() << "s" << "style",
+            QCoreApplication::translate("main", "CSS file <style> for HTML output"),
+            QCoreApplication::translate("main", "style"));
+    parser.addOption(cssStyleOption);
+
     parser.addPositionalArgument("source", QCoreApplication::translate("main", "The schematic main (.sch) file."));
     parser.addPositionalArgument("output", QCoreApplication::translate("main", "BoM output file name."
                                                                                "The suffix choose the output file type."
@@ -92,6 +97,15 @@ CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QSt
     else
     {
         config->outputModel = QString::Null();
+    }
+
+    if (parser.isSet(cssStyleOption))
+    {
+        config->styleFile = parser.value(cssStyleOption);
+    }
+    else
+    {
+        config->styleFile = QString::Null();
     }
 
     const QStringList positionalArguments = parser.positionalArguments();

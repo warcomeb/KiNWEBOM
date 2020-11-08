@@ -47,3 +47,6 @@ HEADERS += \
     schematic/sheet.h \
     schematic/titleblock.h \
     utils/wlog.h
+
+RESOURCES += \
+    resources.qrc
