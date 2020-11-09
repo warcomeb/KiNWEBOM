@@ -134,3 +134,18 @@ QList<QString> TitleBlock::getComments (void) const
 
     return comments;
 }
+
+QString TitleBlock::getBoardRevision (void) const
+{
+    return mRevision;
+}
+
+QString TitleBlock::getDate (void) const
+{
+    return mRevision;
+}
+
+QString TitleBlock::getCompany (void) const
+{
+    return mCompany;
+}

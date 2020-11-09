@@ -2,6 +2,16 @@
  * Thanks to: https://dev.to/dcodeyt/creating-beautiful-html-tables-with-css-428l
  */
 
+.info
+{
+    padding: 12px 15px;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    background-color: #009879;
+    color: #ffffff;
+}
+
 .list-table
 {
     border-collapse: collapse;
@@ -38,4 +48,31 @@
 .list-table tbody tr:last-of-type
 {
     border-bottom: 2px solid #009879;
+}
+
+.title-table
+{
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 200px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.title-table td
+{
+    padding: 12px 15px;
+}
+
+.title-table tr
+{
+    border-bottom: 1px solid #dddddd;
+}
+
+.title-table .title-table-key
+{
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
 }

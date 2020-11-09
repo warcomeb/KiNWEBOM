@@ -1,12 +1,15 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QXmlStreamWriter>
+#include <QString>
 
 #include "kinwebom.h"
 #include "utils/wlog.h"
 
 #include "bom/bomelement.h"
 #include "bom/bomlist.h"
+
+#include "metadata.h"
 
 KiNWEBOM::KiNWEBOM(Config config, QObject *parent):
     QObject(parent)
@@ -145,15 +148,14 @@ bool KiNWEBOM::saveJSON (QString output, QJsonObject model)
 
 bool KiNWEBOM::saveHTML (QString output, QJsonObject model, QString style)
 {
+    WLog& log = WLog::instance();
+
     QFile o(output);
     if (!o.open(QIODevice::WriteOnly))
     {
         //TODO: message
         return false;
     }
-
-//    QJsonObject obj;
-
 
     QTextStream textStream(&o);
     // TODO
@@ -180,18 +182,13 @@ bool KiNWEBOM::saveHTML (QString output, QJsonObject model, QString style)
 
     obj.writeStartElement(QStringLiteral("body"));
 
-//    htmlWriter.writeStartElement(QStringLiteral("h1"));
-//    htmlWriter.writeCharacters(QStringLiteral("Test Page"));
-//    htmlWriter.writeEndElement(); //h1
-//    htmlWriter.writeStartElement(QStringLiteral("h2"));
-//    htmlWriter.writeCharacters(QStringLiteral("Lorem"));
-//    htmlWriter.writeEndElement(); //h2
-//    htmlWriter.writeStartElement(QStringLiteral("p"));
-//    htmlWriter.writeCharacters(QStringLiteral("Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
-//    htmlWriter.writeEndElement(); //p
-
-//    mTitle.write(obj,model);
+    mTitle.write(obj,model);
     mList.write(obj,model);
+
+    obj.writeStartElement(QStringLiteral("p"));
+    obj.writeAttribute(QStringLiteral("class"),QStringLiteral("info"));
+    obj.writeCharacters(log.currentTime() + QString(" - BOM file generated with ").append(PROJECT_NAME).append(" v").append(PROJECT_VERSION));
+    obj.writeEndElement(); //p
 
     obj.writeEndElement(); //body
     obj.writeEndElement(); //html

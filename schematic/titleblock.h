@@ -16,6 +16,12 @@ public:
 
     QString getBoardTitle (void) const;
 
+    QString getBoardRevision (void) const;
+
+    QString getDate (void) const;
+
+    QString getCompany (void) const;
+
     /*!
      * \brief getComments
      * \return
