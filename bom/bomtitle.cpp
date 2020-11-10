@@ -67,6 +67,8 @@ void BOMTitle::write (QXmlStreamWriter &html, QJsonObject config) const
     html.writeAttribute(QStringLiteral("class"),QStringLiteral("title-table"));
 
     writeHTMLRow(html,"Title",mTitle.getBoardTitle());
+    writeHTMLRow(html,"Board Name",mTitle.getBoardName());
+    writeHTMLRow(html,"Board Revision",mTitle.getBoardRevision());
 
 //    html.writeStartElement(QStringLiteral("tbody"));
     QList<QString> comments = mTitle.getComments();

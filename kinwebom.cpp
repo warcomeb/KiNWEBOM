@@ -113,10 +113,10 @@ bool KiNWEBOM::save (Config config)
     switch (config.format)
     {
     case BOM_FORMAT_JSON:
-        return saveJSON(config.outputFile,modelObj);
+        return saveJSON(config,modelObj);
         break;
     case BOM_FORMAT_HTML:
-        return saveHTML(config.outputFile,modelObj,style);
+        return saveHTML(config,modelObj,style);
         break;
     case BOM_FORMAT_CSV:
         return false;
@@ -126,9 +126,9 @@ bool KiNWEBOM::save (Config config)
     return false;
 }
 
-bool KiNWEBOM::saveJSON (QString output, QJsonObject model)
+bool KiNWEBOM::saveJSON (Config config, QJsonObject model)
 {
-    QFile o(output);
+    QFile o(config.outputFile);
     if (!o.open(QIODevice::WriteOnly))
     {
         //TODO: message
@@ -146,11 +146,11 @@ bool KiNWEBOM::saveJSON (QString output, QJsonObject model)
     return true;
 }
 
-bool KiNWEBOM::saveHTML (QString output, QJsonObject model, QString style)
+bool KiNWEBOM::saveHTML (Config config, QJsonObject model, QString style)
 {
     WLog& log = WLog::instance();
 
-    QFile o(output);
+    QFile o(config.outputFile);
     if (!o.open(QIODevice::WriteOnly))
     {
         //TODO: message

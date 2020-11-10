@@ -50,6 +50,8 @@ TitleBlock::TitleBlock(Config config)
 
         // Close file...
         sch.close();
+
+        mBoardName = config.boardName;
     }
     else
     {
@@ -148,4 +150,9 @@ QString TitleBlock::getDate (void) const
 QString TitleBlock::getCompany (void) const
 {
     return mCompany;
+}
+
+QString TitleBlock::getBoardName (void) const
+{
+    return mBoardName;
 }

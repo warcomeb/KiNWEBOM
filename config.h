@@ -26,6 +26,11 @@ struct Config
     bool onlyDefault;
 
     /*!
+     * \brief boardName
+     */
+    QString boardName;
+
+    /*!
      * \brief outputModel
      */
     QString outputModel;

@@ -21,6 +21,12 @@ Schematic::Schematic (Config config)
     QFile sch(config.schematic);
     if (sch.open( QIODevice::ReadOnly | QIODevice::Text ) )
     {
+        if ((config.boardName.isEmpty()) || (config.boardName.isNull()))
+        {
+            QFileInfo info(sch);
+            config.boardName = info.baseName().toUpper();
+        }
+
         QTextStream in(&sch);
 
         // Initialize this sheet as "main"

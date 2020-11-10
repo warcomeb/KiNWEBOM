@@ -22,6 +22,8 @@ public:
 
     QString getCompany (void) const;
 
+    QString getBoardName (void) const;
+
     /*!
      * \brief getComments
      * \return
@@ -34,6 +36,7 @@ public:
     };
 
 private:
+    QString mBoardName;
     QString mTitle;
     QString mRevision;
     QString mDate;

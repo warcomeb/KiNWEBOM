@@ -35,6 +35,11 @@ CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QSt
             QCoreApplication::translate("main", "model"));
     parser.addOption(modelOutputOption);
 
+    const QCommandLineOption nameOption(QStringList() << "n" << "name",
+            QCoreApplication::translate("main", "The board <name>"),
+            QCoreApplication::translate("main", "name"));
+    parser.addOption(nameOption);
+
     const QCommandLineOption cssStyleOption(QStringList() << "s" << "style",
             QCoreApplication::translate("main", "CSS file <style> for HTML output"),
             QCoreApplication::translate("main", "style"));
@@ -97,6 +102,15 @@ CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QSt
     else
     {
         config->outputModel = QString::Null();
+    }
+
+    if (parser.isSet(nameOption))
+    {
+        config->boardName = parser.value(nameOption);
+    }
+    else
+    {
+        config->boardName = QString::Null();
     }
 
     if (parser.isSet(cssStyleOption))

@@ -30,18 +30,18 @@ private:
 
     /*!
      * \brief saveJSON
-     * \param output
+     * \param config
      * \param model
      */
-    bool saveJSON (QString output, QJsonObject model);
+    bool saveJSON (Config config, QJsonObject model);
 
     /*!
      * \brief saveHTML
-     * \param output
+     * \param config
      * \param model
      * \param style
      */
-    bool saveHTML (QString output, QJsonObject model, QString style);
+    bool saveHTML (Config config, QJsonObject model, QString style);
 
     Schematic mSchematic;
     BOMList   mList;
