@@ -14,6 +14,8 @@ void BOMTitle::write (QJsonObject &json, QJsonObject config) const
 
     // Save data...
     o["Title"] = mTitle.getBoardTitle();
+    o["Board Name"] = mTitle.getBoardName();
+    o["Board Revision"] = mTitle.getBoardRevision();
 
     QList<QString> comments = mTitle.getComments();
     if (!config.empty())
