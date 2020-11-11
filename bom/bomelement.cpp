@@ -68,8 +68,6 @@ void BOMElement::write (QJsonObject &json, QJsonObject config) const
 
 void BOMElement::write (QXmlStreamWriter &html, QJsonObject config) const
 {
-    html.writeStartElement(QStringLiteral("tr"));
-
     QString refs;
     foreach (const QString ref, mReferences)
     {
@@ -106,6 +104,4 @@ void BOMElement::write (QXmlStreamWriter &html, QJsonObject config) const
             }
         }
     }
-
-    html.writeEndElement(); //tr
 }

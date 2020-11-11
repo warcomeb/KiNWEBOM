@@ -89,6 +89,10 @@ void BOMList::write (QXmlStreamWriter &html, QJsonObject config) const
     html.writeStartElement(QStringLiteral("tr"));
 
     html.writeStartElement(QStringLiteral("th"));
+    html.writeCharacters(QStringLiteral("Item"));
+    html.writeEndElement(); //th
+
+    html.writeStartElement(QStringLiteral("th"));
     html.writeCharacters(QStringLiteral("References"));
     html.writeEndElement(); //th
 
@@ -116,9 +120,18 @@ void BOMList::write (QXmlStreamWriter &html, QJsonObject config) const
     html.writeEndElement(); //thead
 
     html.writeStartElement(QStringLiteral("tbody"));
+    int i = 1;
     foreach (const BOMElement e, mElements)
     {
+        html.writeStartElement(QStringLiteral("tr"));
+        html.writeStartElement(QStringLiteral("td"));
+        html.writeCharacters(QString::number(i));
+        html.writeEndElement(); //td
+
         e.write(html,config);
+
+        html.writeEndElement(); //tr
+        i++;
     }
 
     html.writeEndElement(); //tbody
