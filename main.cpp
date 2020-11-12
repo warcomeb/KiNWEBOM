@@ -51,7 +51,6 @@ CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QSt
                                                                                "The suffix choose the output file type."
                                                                                "The format supported are CSV, HTML and JSON (default)."));
 
-
     if (!parser.parse(QCoreApplication::arguments()))
     {
         *errorMessage = parser.errorText();

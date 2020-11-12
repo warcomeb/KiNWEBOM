@@ -43,6 +43,16 @@ private:
      */
     bool saveHTML (Config config, QJsonObject model, QString style);
 
+    /*!
+     * \brief writeDocumentInformations
+     * \param config
+     * \param html
+     * \param model
+     */
+    void writeDocumentInformations (Config, QXmlStreamWriter &html, QJsonObject model);
+
+    void writeHTMLRow (QXmlStreamWriter &html, QString key, QString value) const;
+
     Schematic mSchematic;
     BOMList   mList;
     BOMTitle  mTitle;

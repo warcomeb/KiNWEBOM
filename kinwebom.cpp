@@ -183,6 +183,9 @@ bool KiNWEBOM::saveHTML (Config config, QJsonObject model, QString style)
     obj.writeStartElement(QStringLiteral("body"));
 
     mTitle.write(obj,model);
+
+    writeDocumentInformations(config,obj,model);
+
     mList.write(obj,model);
 
     obj.writeStartElement(QStringLiteral("p"));
@@ -194,4 +197,30 @@ bool KiNWEBOM::saveHTML (Config config, QJsonObject model, QString style)
     obj.writeEndElement(); //html
 
     return true;
+}
+
+void KiNWEBOM::writeDocumentInformations (Config /* config */, QXmlStreamWriter &html, QJsonObject /* model */)
+{
+    WLog& log = WLog::instance();
+
+    html.writeStartElement(QStringLiteral("table"));
+    html.writeAttribute(QStringLiteral("class"),QStringLiteral("title-table"));
+
+    writeHTMLRow(html,"Document Date",log.currentTime());
+    writeHTMLRow(html,"Document Revision","TODO");
+
+    html.writeEndElement(); //table
+}
+
+void KiNWEBOM::writeHTMLRow (QXmlStreamWriter &html, QString key, QString value) const
+{
+    html.writeStartElement(QStringLiteral("tr"));
+    html.writeStartElement(QStringLiteral("td"));
+    html.writeAttribute(QStringLiteral("class"),QStringLiteral("title-table-key"));
+    html.writeCharacters(key);
+    html.writeEndElement(); //td
+    html.writeStartElement(QStringLiteral("td"));
+    html.writeCharacters(value);
+    html.writeEndElement(); //td
+    html.writeEndElement(); //tr
 }
