@@ -20,8 +20,9 @@ enum CLIParseResult
 CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QString *errorMessage)
 {
     const QCommandLineOption helpOption = parser.addHelpOption();
+    const QCommandLineOption versionOption = parser.addVersionOption();
 
-    const QCommandLineOption verboseOption(QStringList() << "v" << "verbose",
+    const QCommandLineOption verboseOption(QStringList() << "V" << "verbose",
             QCoreApplication::translate("main", "Select verbose output <level>"),
             QCoreApplication::translate("main", "level"));
     parser.addOption(verboseOption);
@@ -67,6 +68,11 @@ CLIParseResult parseCommandLine (QCommandLineParser &parser, Config *config, QSt
     if (parser.isSet(helpOption))
     {
         return CLI_PARSE_RESULT_HELP;
+    }
+
+    if (parser.isSet(versionOption))
+    {
+        return CLI_PARSE_RESULT_VERSION;
     }
 
     if (parser.isSet(onlyDefaultOption))
@@ -180,6 +186,9 @@ int main (int argc, char *argv[])
     {
     case CLI_PARSE_RESULT_HELP:
         parser.showHelp();
+        Q_UNREACHABLE();
+    case CLI_PARSE_RESULT_VERSION:
+        parser.showVersion();
         Q_UNREACHABLE();
     case CLI_PARSE_RESULT_ERROR:
         fputs(qPrintable("ERROR: "), stderr);
